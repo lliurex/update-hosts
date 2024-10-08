@@ -1,9 +1,12 @@
 #!/bin/sh
 
+
+
 # funcs
 #######
 dump_files(){
-	ls -1 "$HOSTS_DIR" |sort |while read f ; do cat "$f" ; done
+	# ignore files not ending in .host(s)
+	ls -1 "$HOSTS_DIR" |sort |grep "\.host\(s\)\?$" |while read f ; do cat "$f" ; done
 }
 
 remove_section(){
