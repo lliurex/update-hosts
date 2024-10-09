@@ -7,6 +7,10 @@ die(){
 	exit 1
 }
 
+get_interface_list(){
+	LANG=C ip a |sed -ne "/^[[:digit:]]\+:/{s%^[[:digit:]]\+:[[:blank:]]\+%%;s%:.*$%%;p}"
+}
+
 get_domain(){
 	# get search domain from resolv.conf
 	# remove "dot" at beginning of string 
@@ -94,11 +98,11 @@ bin2ip(){
 		DOT_IP="${DOT_IP}.$(bin2byte "$BIN_BYTE")"
 		n=$(($n + 1))
 	done
-	echo "${DOT_IP#.}"
+	printf "${DOT_IP#.}"
 }
 
 
-get_srv_ip(){
+get_srv_cidr(){
 	# receives a CIDR ip/mask parameter of any host in subnet
 	# and returns the nth ip in the related subnet
 	# parameters:
@@ -126,7 +130,16 @@ get_srv_ip(){
 
 	# concatenate to get binary server IP and convert to dot separated format
 	BIN_SRV_IP="${BIN_NET}${BIN_HOST}"
-	bin2ip "$BIN_SRV_IP"
+	printf "$(bin2ip "$BIN_SRV_IP")/$MASK"
+}
+
+get_srv_ip(){
+	# this function is a wrapper of get_srv_cidr to parse only IP address
+	# 
+	# parameters:
+	CIDR="$1" 	# IP/MASK
+	IP_NUMBER="$2"  # -> subnet IP position
+	get_srv_cidr "$CIDR" "$IP_NUMBER" |sed -e "s%/.*$%%"
 }
 
 print_host(){
