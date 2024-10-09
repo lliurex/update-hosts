@@ -8,8 +8,8 @@
 SRV_IP_NUMBER=5
 
 # hosts file to write 
-#HOSTS_FILE="/etc/hosts.d/arithmetic-server.hosts"
-HOSTS_FILE="/tmp/arithmetic-server.hosts"
+HOSTS_FILE="/etc/hosts.d/arithmetic-server.hosts"
+# Testing .... HOSTS_FILE="/tmp/arithmetic-server.hosts"
 
 # List of servers aliases to write (comma separated)
 SRV_ALIASES="server,srv,fs"
