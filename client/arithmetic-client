@@ -5,7 +5,7 @@
 ###############
 
 # Asume server uses 5th available IP in subnet
-SRV_IP_NUMBER=5
+SRV_IP_NUMBER=4
 
 # hosts file to write 
 HOSTS_FILE="/etc/hosts.d/arithmetic-server.hosts"

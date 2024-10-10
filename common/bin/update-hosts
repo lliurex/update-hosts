@@ -6,11 +6,11 @@
 #######
 dump_files(){
 	# ignore files not ending in .host(s)
-	ls -1 "$HOSTS_DIR" |sort |grep "\.host\(s\)\?$" |while read f ; do cat "$f" ; done
+	ls -1 "$HOSTS_DIR" |sort |grep "\.host\(s\)\?$" |while read f ; do cat "$HOSTS_DIR/$f" ; done
 }
 
 remove_section(){
-	 sed -e "/^$BEGIN_MARK$/,/^$END_MARK$/d" "$HOSTS_FILE"
+	 sed -i -e "/^$BEGIN_MARK$/,/^$END_MARK$/d" "$HOSTS_FILE"
 }
 
 add_section(){
