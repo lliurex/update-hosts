@@ -1,81 +1,25 @@
 #!/bin/sh
 
-###############
-# global vars #
-###############
-
-# Asume server uses 5th available IP in subnet
-SRV_IP_NUMBER=5
+#####################
+#  vars & functions #
+#####################
 
 # get default route iface
 GW_IFACE="$(get_gw_iface)"
 
 # load common functions
-. /usr/share/update-hosts/update-hosts-common
+. /usr/share/natfree-common/natfree-common
 
-# name of virtual iface to assign when
-# GW_IFACE brings up
-SRV_VIRTUAL_IFACE="natfree00"
+########
+# main #
+########
 
+[ "$GW_IFACE" ] || die "Unable to find network gateway iface"
+[ "$IFACE" ] || die "Undefined 'IFACE' environment var. May be not running under networkd-dispatcher?"
 
-#############
-# functions #
-#############
-main(){
-	# main
-	######
-	# check environment
-	[ "$SRV_VIRTUAL_IFACE" ] || die "Undefined SRV_VIRTUAL_IFACE variable"
-	[ "$GW_IFACE" ] || die "Unable to find network gateway iface"
-	[ "$IFACE" ] || die "Undefined 'IFACE' environment var. May be not running under networkd-dispatcher?"
+# correct interface up?
+[ "$GW_IFACE" = "$IFACE" ] || exit 0
 
-	# correct interface up?
-	[ "$GW_IFACE" = "$IFACE" ] || exit 0
-
-	# recopile necessary data
-
-	# get ip/mask in CIDR notation
-	CIDR="$(get_iface_cidr "$GW_IFACE")"
-	[ "$CIDR" ] || die "Unable to retrieve IP address from $GW_IFACE"
-
-	# get SRV_IP_NUMBER available ip in subnet
-	SRV_CIDR="$(get_srv_cidr "$CIDR" "$SRV_IP_NUMBER")"
-
-	# check existence of SRV_VIRTUAL_IFACE and create it if needed
-	if ! get_interface_list | grep -qFX "$SRV_VIRTUAL_IFACE" ; then
-		create_virt_iface "$SRV_VIRTUAL_IFACE"
-		# test creation
-		get_interface_list | grep -qFX "$SRV_VIRTUAL_IFACE" || die "Unable to create virtual interface $SRV_VIRTUAL_IFACE"
-	fi
-
-	# assign SRV_IP to virtual interface
-	# TODO: test this code !!!!!!!
-	ip link set dev "$SRV_VIRTUAL_IFACE" down
-	ip addr add "$SRV_CIDR" dev "$SRV_VIRTUAL_IFACE"
-	ip link set dev "$SRV_VIRTUAL_IFACE" up
-
-	# extract SRV_IP
-	SRV_IP="${SRV_CIDR%/*}"
-
-	# update server n4d variables
-	# TODO: avoid this dirty trick ...
-	# BEGIN 
-	#N4DVARS_DIR="/var/lib/n4d/variables"
-	N4DVARS_FILES="SRV_IP:$SRV_IP CLIENT_LDAP_URI: CLIENT_LDAP_URI_NOSSL:"
-	N4DVARS_FILES="SRV_IP:$SRV_IP"
-	for f in "$N4DVARS_FILES" ; do
-		F="${N4DVARS_DIR}/${f:*}"
-		STR="\"value\":"
-		sed -i -n "/\"value\":/s%:.*$%: $SRV_IP,%"
-	done
-	service n4d restart
-	# END
-
-}
-
-################
-# main program #
-################
-main
+natfree-update-server-arithmetic -i "$GW_IFACE"
 exit 0
 

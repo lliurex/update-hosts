@@ -4,14 +4,11 @@
 # global vars #
 ###############
 
-# Asume server uses 5th available IP in subnet
-SRV_IP_NUMBER=5
-
 # get default route iface
 GW_IFACE="$(get_gw_iface)"
 
 # load common functions
-. /usr/share/update-hosts/update-hosts-common
+. /usr/share/natfree-common/natfree-common
 
 # name of virtual iface to assign when
 # GW_IFACE brings up
@@ -55,15 +52,15 @@ main(){
 				usage
 				;;
 		esac
+
+		# validate
+		echo "$SRV_IP_NUMBER" |grep -q "^[[:digit:]]\+$" || die "Invalid IP number/position $SRV_IP_NUMBER"
+		[ "$SRV_VIRTUAL_IFACE" ] || die "Undefined virtual interface"
+
+		[ "$GW_IFACE" ] || die "Undefined physical interface"
+		get_interface_list | grep -qFX "$GW_IFACE" || die "Invalid physical interface $GW_IFACE"
 		shift
 	done
-
-	echo "$SRV_IP_NUMBER" |grep -q "^[[:digit:]]\+$" || die "Invalid IP number/position $SRV_IP_NUMBER"
-
-	[ "$SRV_VIRTUAL_IFACE" ] || die "Undefined virtual interface"
-
-	[ "$GW_IFACE" ] || die "Undefined physical interface"
-	get_interface_list | grep -qFX "$GW_IFACE" || die "Invalid physical interface $GW_IFACE"
 
 	# recopile necessary data
 
@@ -91,15 +88,14 @@ main(){
 	SRV_IP="${SRV_CIDR%/*}"
 
 	# update server n4d variables
-	# TODO: avoid this dirty trick ...
+	# TODO: please avoid this dirty trick ...
 	# BEGIN 
 	#N4DVARS_DIR="/var/lib/n4d/variables"
-	N4DVARS_FILES="SRV_IP:$SRV_IP CLIENT_LDAP_URI: CLIENT_LDAP_URI_NOSSL:"
-	N4DVARS_FILES="SRV_IP:$SRV_IP"
+	N4DVARS_FILES="SRV_IP,$SRV_IP CLIENT_LDAP_URI,ldaps://$SRV_IP CLIENT_LDAP_URI_NOSSL,ldap://$SRV_IP"
 	for f in "$N4DVARS_FILES" ; do
-		F="${N4DVARS_DIR}/${f:*}"
-		STR="\"value\":"
-		sed -i -n "/\"value\":/s%:.*$%: $SRV_IP,%"
+		VAR_FILE="${N4DVARS_DIR}/${f%,*}"
+		VAR_VALUE="${f#*,}"
+		sed -i -n "/\"value\":/s%:.*$%: \"$VAR_VALUE\",%" "$VAR_FILE"
 	done
 	service n4d restart
 	# END

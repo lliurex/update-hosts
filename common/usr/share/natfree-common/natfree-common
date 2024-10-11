@@ -1,3 +1,12 @@
+###############
+# global vars #
+###############
+
+# Asume server uses 5th available IP in subnet
+SRV_IP_NUMBER=5
+
+
+
 #############
 # functions #
 #############
