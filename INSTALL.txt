@@ -7,10 +7,9 @@ The included scripts use /bin/sh , ip, sed, grep, cut, bc and some sh builtins
 	copy  ./client/arithmetic-client to /etc/network/if-up.d
    	arithmetic-client file permissions must be 0755 and must be owned by root user and group (uid=0, gid=0)
 	make a symbolic link to file arithmetic-client in directory /usr/lib/networkd-dispatcher/routable.d
-4. For arithmetic server
-	copy  (or link) ./server/arithmetic-server.sh to /usr/lib/networkd-dispatcher/routable.d (or /etc/networkd-dispatcher/routable.d/)
-   	arithmetic-server.sh  file permissions must be 0755 and must be owned by root user and group (uid=0, gid=0)
-
+4. For arithmetic server (TODO)
+	./server/arithmetic-server.sh
+	
 
 
 
