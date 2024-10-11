@@ -3,8 +3,19 @@
 #############
 
 die(){
-	echo "ERROR: $1" >&2
-	exit 1
+        TYPE="ERROR"
+        if [ "$#" -gt 1 ] ; then
+                TYPE="$1"
+                shift
+        fi
+        printf "${TYPE}: " >&2
+        while [ "$1" ] ; do
+                echo "$1" >&2
+                shift
+        done
+        echo "" >&2
+
+        exit 1
 }
 
 get_interface_list(){
