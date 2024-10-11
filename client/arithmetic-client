@@ -15,7 +15,7 @@ HOSTS_FILE="/etc/hosts.d/arithmetic-server.hosts"
 SRV_ALIASES="server,srv,fs"
 
 # get default route iface
-GW_IFACE="$(LANG=C ip -4 route list 0/0 | cut -d ' ' -f 5)"
+GW_IFACE="$(get_gw_iface)"
 
 # load common functions
 . /usr/share/update-hosts/update-hosts-common

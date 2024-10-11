@@ -11,6 +11,21 @@ get_interface_list(){
 	LANG=C ip a |sed -ne "/^[[:digit:]]\+:/{s%^[[:digit:]]\+:[[:blank:]]\+%%;s%:.*$%%;p}"
 }
 
+get_gw_iface(){
+	# prints default route iface name
+	LANG=C ip -4 route list 0/0 | cut -d ' ' -f 5
+}
+
+create_virt_iface(){
+	# create virtual interface over physical interface
+	# currently supports only macvtap mode bridge
+	# parameters:
+	VIRTUAL_IFACE="$1"	# -> VIRT_IFACE_NAME
+	PHYSICAL_IFACE="$2"	# -> PHYS_IFACE
+
+	ip link add "$VIRTUAL_IFACE" link "$PHYSICAL_IFACE" type macvlan mode bridge
+}
+
 get_domain(){
 	# get search domain from resolv.conf
 	# remove "dot" at beginning of string 
