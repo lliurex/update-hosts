@@ -1,3 +1,9 @@
+update-hosts (0.2) unstable; urgency=medium
+
+  * Fixed comments in /etc/hosts
+
+ -- Luis Garcia Gisbert <luisgg@gmail.com>  Sat, 12 Oct 2024 21:33:20 +0200
+
 update-hosts (0.1) unstable; urgency=low
 
   * Initial release.
