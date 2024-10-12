@@ -9,11 +9,9 @@ Homepage: https://gitlab.com/luisgg/update-hosts
 Package: update-hosts
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
-Description: example package based on GNU hello
- The GNU hello program produces a familiar, friendly greeting.  It
- allows non-programmers to use a classic computer science tool which
- would otherwise be unavailable to them.
+Description: simple tool to update /etc/hosts from multiple files
+ The provided utility 'update-hosts' reads files from directory
+ '/etc/hosts.d/' and write the result in file /etc/host.
  .
- Seriously, though: this is an example of how to do a Debian package.
- It is the Debian version of the GNU Project's `hello world' program
- (which is itself an example for the GNU Project).
+ File format is not checked, but filename must end in .host or .hosts,
+ other extensions are ignored.
