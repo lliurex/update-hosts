@@ -4,6 +4,22 @@
 
 # funcs
 #######
+die(){
+        TYPE="ERROR"
+        if [ "$#" -gt 1 ] ; then
+                TYPE="$1"
+                shift
+        fi
+        printf "${TYPE}: " >&2
+        while [ "$1" ] ; do
+                echo "$1" >&2
+                shift
+        done
+        echo "" >&2
+
+        exit 1
+}
+
 dump_files(){
 	# ignore files not ending in .host(s)
 	ls -1 "$HOSTS_DIR" |sort |grep "\.host\(s\)\?$" |while read f ; do cat "$HOSTS_DIR/$f" ; done
