@@ -1,3 +1,9 @@
+update-hosts (0.4) jammy; urgency=medium
+
+  * First version on baikonur
+
+ -- Raul Rodrigo Segura <raurodse@gmail.com>  Tue, 22 Oct 2024 14:14:25 +0200
+
 update-hosts (0.3) unstable; urgency=medium
 
   * Added missing function die().
