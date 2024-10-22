@@ -2,9 +2,9 @@ Source: update-hosts
 Section: misc
 Priority: optional
 Maintainer: Luis Garcia Gisbert <luisgg@gmail.com>
-Standards-Version: 4.3.0
-Build-Depends: debhelper-compat (= 10)
-Homepage: https://gitlab.com/luisgg/update-hosts
+Standards-Version: 4.6.0
+Build-Depends: debhelper-compat (= 13)
+Homepage: https://github.com/lliurex/update-hosts
 
 Package: update-hosts
 Architecture: any
