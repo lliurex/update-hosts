@@ -1,23 +1,6 @@
-update-hosts (0.4) jammy; urgency=medium
+update-hosts (1.0) jammy; urgency=medium
 
   * First version on baikonur
 
  -- Raul Rodrigo Segura <raurodse@gmail.com>  Tue, 22 Oct 2024 14:14:25 +0200
 
-update-hosts (0.3) unstable; urgency=medium
-
-  * Added missing function die().
-
- -- Luis Garcia Gisbert <luisgg@gmail.com>  Fri, 18 Oct 2024 08:24:57 +0200
-
-update-hosts (0.2) unstable; urgency=medium
-
-  * Fixed comments in /etc/hosts
-
- -- Luis Garcia Gisbert <luisgg@gmail.com>  Sat, 12 Oct 2024 21:33:20 +0200
-
-update-hosts (0.1) unstable; urgency=low
-
-  * Initial release.
-
- -- Luis Garcia Gisbert <luisgg@gmail.com>  Sat, 12 Oct 2024 00:51:59 +0200

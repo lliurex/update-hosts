@@ -1,7 +1,7 @@
 Source: update-hosts
 Section: misc
 Priority: optional
-Maintainer: Luis Garcia Gisbert <luisgg@gmail.com>
+Maintainer: Lliurex Team <lliurex@gva.es>
 Standards-Version: 4.6.0
 Build-Depends: debhelper-compat (= 13)
 Homepage: https://github.com/lliurex/update-hosts
